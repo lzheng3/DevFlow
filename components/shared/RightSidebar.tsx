@@ -5,18 +5,18 @@ import RenderTag from "./RenderTag";
 
 const RightSidebar = () => {
   const hotQuestions = [
-    { _id: 1, title: "How do I use express as a custom server in NextJS?" },
-    { _id: 2, title: "How to deploy nextjs app on vercel?" },
-    { _id: 3, title: "How to use tailwindcss with nextjs?" },
-    { _id: 4, title: "How to create a custom hook in Nextjs?" },
+    { _id: "1", title: "How do I use express as a custom server in NextJS?" },
+    { _id: "2", title: "How to deploy nextjs app on vercel?" },
+    { _id: "3", title: "How to use tailwindcss with nextjs?" },
+    { _id: "4", title: "How to create a custom hook in Nextjs?" },
   ];
 
   const tags = [
-    { _id: 1, name: "nextjs", totalQuestions: 10 },
-    { _id: 2, name: "react", totalQuestions: 8 },
-    { _id: 3, name: "tailwindcss", totalQuestions: 6 },
-    { _id: 4, name: "vercel", totalQuestions: 5 },
-    { _id: 5, name: "javascript", totalQuestions: 4 },
+    { _id: "1", name: "nextjs", totalQuestions: 10 },
+    { _id: "2", name: "react", totalQuestions: 8 },
+    { _id: "3", name: "tailwindcss", totalQuestions: 6 },
+    { _id: "4", name: "vercel", totalQuestions: 5 },
+    { _id: "5", name: "javascript", totalQuestions: 4 },
   ];
   return (
     <section
