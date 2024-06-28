@@ -1,18 +1,27 @@
 import React from "react";
 import RenderTag from "../shared/RenderTag";
-import { formatDistance } from "date-fns";
 import Link from "next/link";
 import Metric from "../shared/Metric";
-import { formatBigNumber } from "@/lib/utils";
-interface QuestionCardProps {
-  title: string;
+import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
+
+interface QuestionProps {
   _id: string;
-  tags: { _id: string; name: string }[];
-  author: { _id: string; name: string; picture: string };
-  upvotes: number;
+  title: string;
+  tags: {
+    _id: string;
+    name: string;
+  }[];
+  author: {
+    _id: string;
+    name: string;
+    picture: string;
+    clerkId: string;
+  };
+  upvotes: string[];
   views: number;
-  answer: Array<object>;
+  answers: Array<object>;
   createdAt: Date;
+  clerkId?: string | null;
 }
 const QuestionCard = ({
   title,
@@ -21,15 +30,15 @@ const QuestionCard = ({
   author,
   upvotes,
   views,
-  answer,
+  answers,
   createdAt,
-}: QuestionCardProps) => {
+}: QuestionProps) => {
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <div>
           <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
-            {formatDistance(createdAt, new Date(), { addSuffix: true })}
+            {getTimestamp(createdAt)}
           </span>
           <Link href={`/question/${_id}`}>
             <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
@@ -50,10 +59,7 @@ const QuestionCard = ({
           imgUrl="/assets/icons/avatar.svg"
           alt="user"
           value={author.name}
-          title={
-            ` - Asked ` +
-            formatDistance(createdAt, new Date(), { addSuffix: true })
-          }
+          title={` - asked ${getTimestamp(createdAt)}`}
           href={`/profile/${author._id}`}
           isAuthor
           textStyles="text-dark400_light700 body-medium"
@@ -62,21 +68,21 @@ const QuestionCard = ({
         <Metric
           imgUrl="/assets/icons/like.svg"
           alt="upvote"
-          value={formatBigNumber(upvotes)}
+          value={upvotes ? formatAndDivideNumber(upvotes.length) : 0}
           title=" Votes"
           textStyles="text-dark400_light800 small-medium"
         />
         <Metric
           imgUrl="/assets/icons/message.svg"
           alt="message"
-          value={formatBigNumber(answer.length)}
+          value={answers ? formatAndDivideNumber(answers.length) : 0}
           title=" Answers"
           textStyles="text-dark400_light800 small-medium"
         />
         <Metric
           imgUrl="/assets/icons/eye.svg"
           alt="eye"
-          value={formatBigNumber(views)}
+          value={formatAndDivideNumber(views)}
           title=" Views"
           textStyles="text-dark400_light800 small-medium"
         />

@@ -5,82 +5,13 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { getQuestions } from "@/lib/actions/questoin.action";
 import Link from "next/link";
 import React from "react";
 
-const Home = () => {
-  const questions = [
-    {
-      _id: "1",
-      title: "How do I use express as a custom server in NextJS?",
-      tags: [{ _id: "1", name: "nextjs" }],
-      author: {
-        _id: "1",
-        name: "Lekai",
-        picture: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-      },
-      upvotes: 1500000,
-      views: 10,
-      answer: [],
-      createdAt: new Date("2024-03-01T00:00:00.000Z"),
-    },
-    {
-      _id: "2",
-      title: "How do I use typescript with nextjs?",
-      tags: [{ _id: "2", name: "typescript" }],
-      author: {
-        _id: "2",
-        name: "John",
-        picture: "https://i.pravatar.cc/150?u=a042581f4e29026704e",
-      },
-      upvotes: 8,
-      views: 800,
-      answer: [],
-      createdAt: new Date("2024-02-02T00:00:00.000Z"),
-    },
-    {
-      _id: "3",
-      title: "How to deploy nextjs app on vercel?",
-      tags: [{ _id: "3", name: "vercel" }],
-      author: {
-        _id: "3",
-        name: "Emma",
-        picture: "https://i.pravatar.cc/150?u=a042581f4e29026704f",
-      },
-      upvotes: 6,
-      views: 600,
-      answer: [],
-      createdAt: new Date("2024-01-03T00:00:00.000Z"),
-    },
-    {
-      _id: "4",
-      title: "How to use tailwindcss with nextjs?",
-      tags: [{ _id: "4", name: "tailwindcss" }],
-      author: {
-        _id: "4",
-        name: "David",
-        picture: "https://i.pravatar.cc/150?u=a042581f4e29026704g",
-      },
-      upvotes: 5,
-      views: 500,
-      answer: [],
-      createdAt: new Date("2024-03-04T00:00:00.000Z"),
-    },
-    {
-      _id: "5",
-      title: "How to create a custom hook in NextJS?",
-      tags: [{ _id: "5", name: "react" }],
-      author: {
-        _id: "5",
-        name: "Sarah",
-        picture: "https://i.pravatar.cc/150?u=a042581f4e29026704h",
-      },
-      upvotes: 4,
-      views: 400,
-      answer: [],
-      createdAt: new Date("2024-06-14T00:00:00.000Z"),
-    },
-  ];
+const Home = async () => {
+  const result = await getQuestions({});
+  console.log(result.questions);
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -110,8 +41,8 @@ const Home = () => {
       <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
