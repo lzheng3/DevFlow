@@ -72,12 +72,14 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
       .populate({
         path: "tags",
         model: Tag,
+        select: "_id name",
       })
       .populate({
         path: "author",
         model: User,
+        select: "_id clerkId name picture",
       });
-    return { question };
+    return question;
   } catch (error) {
     console.log(error);
     throw error;
