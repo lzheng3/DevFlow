@@ -7,7 +7,7 @@ import User from "@/database/user.model";
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
   try {
     connectToDB();
-    const { userId, limit = 3 } = params;
+    const { userId } = params;
     const user = await User.findById(userId);
     if (!user) throw new Error("User not found");
 
@@ -29,6 +29,8 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDB();
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+    const skipAmount = (page - 1) * pageSize;
     const tags = await Tag.find({}).sort({ createdAt: -1 });
     return { tags };
   } catch (error) {
