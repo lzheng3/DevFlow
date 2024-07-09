@@ -49,19 +49,17 @@ export async function createQuestion(params: CreateQuestionParams) {
     // create the tags or get them if they already exist
     for (const tag of tags) {
       const existingTag = await Tag.findOneAndUpdate(
-        {
-          name: { $regex: new RegExp(`^${tag}`, "i") },
-        },
-        { $setOnInsert: { name: tag }, $push: { question: question._id } },
+        { name: { $regex: new RegExp(`^${tag}$`, "i") } },
+        { $setOnInsert: { name: tag }, $push: { questions: question._id } },
         { upsert: true, new: true }
       );
 
       tagDocuments.push(existingTag._id);
-
-      await question.findByIdAndUpdate(question._id, {
-        $push: { tags: { $each: tagDocuments } },
-      });
     }
+    await Question.findByIdAndUpdate(question._id, {
+      $push: { tags: { $each: tagDocuments } },
+    });
+
     revalidatePath(path);
   } catch (error) {}
 }
