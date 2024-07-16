@@ -6,7 +6,7 @@ import {
   upvoteQuestion,
 } from "@/lib/actions/questoin.action";
 import { saveQuestion } from "@/lib/actions/user.action";
-import { formatAndDivideNumber } from "@/lib/utils";
+
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -119,7 +119,7 @@ const Votes = ({
         <div className="flex-center gap-1.5">
           <Image
             src={
-              hasupvote
+              hasdownvote
                 ? "/assets/icons/downvoted.svg"
                 : "/assets/icons/downvote.svg"
             }
