@@ -1,4 +1,5 @@
 "use server";
+import User from "./../../database/user.model";
 import {
   CreateQuestionParams,
   DeleteQuestionParams,
@@ -12,7 +13,6 @@ import Question from "@/database/question.model";
 import { connectToDB } from "../mongoose";
 import Tag from "@/database/tag.model";
 
-import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
 import Answer from "@/database/answer.model";
 import Interaction from "@/database/interaction.model";
@@ -21,7 +21,10 @@ import { FilterQuery } from "mongoose";
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDB();
-    const { searchQuery, filter, page, pageSize } = params;
+    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+
+    // Calculate the number of questions to skip based on the page number and page size
+    const skipAmount = (page - 1) * pageSize;
     const query: FilterQuery<typeof Question> = {};
 
     if (searchQuery) {
@@ -55,8 +58,13 @@ export async function getQuestions(params: GetQuestionsParams) {
         path: "author",
         model: User,
       })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort(sortOptions);
-    return { questions };
+
+    const totalQuestions = await Question.countDocuments(query);
+    const isNext = totalQuestions > skipAmount + pageSize;
+    return { questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
