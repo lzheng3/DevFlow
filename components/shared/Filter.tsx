@@ -8,6 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useRouter, useSearchParams } from "next/navigation";
+import { formUrlQuery } from "@/lib/utils";
+import { undefined } from "zod";
 
 interface FilterProps {
   filters: { name: string; value: string }[];
@@ -16,9 +19,25 @@ interface FilterProps {
 }
 
 const Filter = ({ filters, otherClasses, containerClasses }: FilterProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const paramsFilter = searchParams.get("filter");
+  const handleUpdateFilter = (value: string) => {
+    const newUrl = formUrlQuery({
+      params: searchParams.toString(),
+      key: "filter",
+      value,
+    });
+
+    router.push(newUrl, { scroll: false });
+  };
+
   return (
     <div className={`relative ${containerClasses}`}>
-      <Select>
+      <Select
+        onValueChange={handleUpdateFilter}
+        defaultValue={paramsFilter || undefined}
+      >
         <SelectTrigger
           className={`${otherClasses} body-regular light-border 
           background-light800_dark300 text-dark500_light700 border 
