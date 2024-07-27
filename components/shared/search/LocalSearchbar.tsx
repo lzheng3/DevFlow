@@ -23,10 +23,8 @@ const LocalSearchbar = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get("q");
-  // console.log(query);
   const [search, setSearch] = React.useState(query || "");
-  // console.log(searchParams.toString());
-  // console.log(qs.parse(searchParams.toString()));
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (search) {
