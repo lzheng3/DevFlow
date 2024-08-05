@@ -4,7 +4,7 @@ import { Input } from "../../ui/input";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
-import qs from "query-string";
+
 interface LocalSearchbarProps {
   route: string;
   iconPosition: string;
