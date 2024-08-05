@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/select";
 import { useRouter, useSearchParams } from "next/navigation";
 import { formUrlQuery } from "@/lib/utils";
-import { undefined } from "zod";
 
 interface FilterProps {
   filters: { name: string; value: string }[];
