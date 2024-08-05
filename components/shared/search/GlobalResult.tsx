@@ -1,35 +1,46 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import GlobalFilter from "./GlobalFilter";
 import { globalSearch } from "@/lib/actions/general.action";
+
 const GlobalResult = () => {
   const searchParams = useSearchParams();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState([
+    { type: "question", id: 1, title: "Next.js question" },
+    { type: "tag", id: 1, title: "Nextjs" },
+    { type: "user", id: 1, title: "jsm" },
+  ]);
+
   const global = searchParams.get("global");
   const type = searchParams.get("type");
-  const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState([]);
 
   useEffect(() => {
     const fetchResult = async () => {
       setResult([]);
       setIsLoading(true);
+
       try {
         const res = await globalSearch({ query: global, type });
+
         setResult(JSON.parse(res));
       } catch (error) {
-        console.log(error);
+        console.error(error);
         throw error;
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (global) fetchResult();
+    if (global) {
+      fetchResult();
+    }
   }, [global, type]);
 
   const renderLink = (type: string, id: string) => {
@@ -46,16 +57,15 @@ const GlobalResult = () => {
         return "/";
     }
   };
+
   return (
-    <div
-      className="absolute top-full z-10 mt-3 w-full rounded-xl 
-    bg-light-800 py-5 shadow-sm dark:bg-dark-400"
-    >
+    <div className="absolute top-full z-10 mt-3 w-full rounded-xl bg-light-800 py-5 shadow-sm dark:bg-dark-400">
       <GlobalFilter />
       <div className="my-5 h-px bg-light-700/50 dark:bg-dark-500/50" />
+
       <div className="space-y-5">
         <p className="text-dark400_light900 paragraph-semibold px-5">
-          Top Match:
+          Top Match
         </p>
 
         {isLoading ? (
