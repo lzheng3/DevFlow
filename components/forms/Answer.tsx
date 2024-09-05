@@ -68,12 +68,11 @@ const Answer = ({ question, authorId, questionId }: Props) => {
         method: "POST",
         body: JSON.stringify({ title: question, content: question }),
       });
-      console.log(question);
       const aiAnswer = await response.json();
 
       if (editorRef.current) {
         const editor = editorRef.current as any;
-        editor.setContent(aiAnswer.toString());
+        editor.setContent(aiAnswer.aiAnswer.toString());
       }
     } catch (error) {
       console.log(error);

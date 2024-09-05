@@ -289,7 +289,7 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
   try {
     connectToDB();
 
-    const { userId, page = 1, pageSize = 20, searchQuery } = params;
+    const { userId, page = 1, pageSize = 10, searchQuery } = params;
 
     // find user
     const user = await User.findOne({ clerkId: userId });
